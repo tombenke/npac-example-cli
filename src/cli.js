@@ -40,6 +40,10 @@ const parse = (defaults, processArgv=process.argv) => {
             }
         )
 
+        /*
+         * Place your command parser implementations here, similar to the `echo` example above
+         */
+
         .demandCommand(1, "Must use a command!")
         .showHelpOnFail(false, 'Specify --help for available options')
         .help()

@@ -145,7 +145,7 @@ So everything (including the whole cli aplication, the cli parser, etc.) are uni
 
 ## References
 
-- [npac](http://tombenke.github.io/npac).
+- [npac - A lightweight Ports and Adapters Container for Node](https://github.com/tombenke/npac).
 
 ---
 
