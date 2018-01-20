@@ -13,6 +13,9 @@ This is a CLI example application using the npac container.
 Its main purpose is to demonstrate, how to create and maintain a command line tool,
 using the [npac](http://tombenke.github.io/npac) module.
 
+Use the [ncli-archetype](https://github.com/tombenke/ncli-archetype) boilerplate with the
+[kickoff](https://github.com/tombenke/kickoff) tool to generate similar project for yourself.
+
 ## Installation
 
 Run the install command if you want to install the tool globally:
@@ -149,11 +152,10 @@ So everything (including the whole cli aplication, the cli parser, etc.) are uni
     }
 ```
 
-
-
 ## References
 
 - [npac - A lightweight Ports and Adapters Container for Node](https://github.com/tombenke/npac).
+- [ncli-archetype - Project archetype for Command Line tools using Node.js](https://github.com/tombenke/ncli-archetype).
 
 ---
 
