@@ -43,10 +43,139 @@
 
 
     <section>
-        <article><h2>About</h2><p>'CLI example application using the npac container'</p>
-<h2>Installation</h2><p>Run the install command:</p>
-<pre class="prettyprint source"><code>npm install npac-example-cli</code></pre><p>Check if npac-example-cli is properly installed:</p>
-<pre class="prettyprint source"><code>$ npac-example-cli -h</code></pre><h2>Get Help</h2><p>To learn more about the tool visit the <a href="http://tombenke.github.io/npac-example-cli/">homepage</a>.</p>
+        <article><h1>npac-example-cli</h1>
+<p><a href="http://github.com/badges/stability-badges"><img src="http://badges.github.io/stability-badges/dist/experimental.svg" alt="experimental"></a><br>
+<a href="https://badge.fury.io/js/npac-example-cli"><img src="https://badge.fury.io/js/npac-example-cli.svg" alt="npm version"></a><br>
+<a href="https://travis-ci.org/tombenke/npac-example-cli"><img src="https://api.travis-ci.org/tombenke/npac-example-cli.svg" alt="Build Status"></a><br>
+<a href="https://coveralls.io/github/tombenke/npac-example-cli?branch=master"><img src="https://coveralls.io/repos/github/tombenke/npac-example-cli/badge.svg?branch=master" alt="Coveralls"></a></p>
+<h2>About</h2>
+<p>This is a CLI example application using the npac container.</p>
+<p>Its main purpose is to demonstrate, how to create and maintain a command line tool,<br>
+using the <a href="http://tombenke.github.io/npac">npac</a> module.</p>
+<p>Use the <a href="https://github.com/tombenke/ncli-archetype">ncli-archetype</a> boilerplate with the<br>
+<a href="https://github.com/tombenke/kickoff">kickoff</a> tool to generate similar project for yourself.</p>
+<h2>Installation</h2>
+<p>Run the install command if you want to install the tool globally:</p>
+<pre><code>npm install -g npac-example-cli
+</code></pre>
+<p>Check if npac-example-cli is properly installed:</p>
+<pre><code>$ npac-example-cli --help
+</code></pre>
+<p>If you only want to tinker with it, or just study how it works, then clone it, install the packages,<br>
+and use in development mode:</p>
+<pre class="prettyprint source lang-bash"><code>    git clone git@github.com:tombenke/npac-example-cli.git
+    cd npac-example-cli
+    npm install
+    npm run build
+    npm dist/app.js --help
+</code></pre>
+<h2>How does it work?</h2>
+<p>The <code>npac-example.cli</code> is a command line appication. The source code can be found in the <code>src</code> directory:</p>
+<pre class="prettyprint source lang-bash"><code>src
+├── app.js
+├── cli.js
+├── cli.spec.js
+├── commands
+│   ├── echo
+│   │   ├── index.js
+│   │   └── index.spec.js
+│   └── index.js
+├── config.js
+├── config.spec.js
+├── index.js
+└── index.spec.js
+</code></pre>
+<p>The application is made of the following modules:</p>
+<ul>
+<li><code>src/index.js</code>: The application itself, as a module.<br>
+It encapsulates everything, and exports a <code>start()</code> function, that is the single entry point of execution.</li>
+<li><code>src/config.js</code>: The default configuration parameters.<br>
+It defines the default values, and the environment parameters, if there is any used.</li>
+<li><code>src/cli.js</code>: The command line interpreter, which defines the commands, and parses their parameters.</li>
+<li><code>src/commands/index.js</code>: It represents the executives object,<br>
+that holds every command function as a property with the same names that are used as commands through the cli.</li>
+<li><code>src/commands/echo/index.js</code>: The implementation of the echo command, accompanied with its unit test.<br>
+Each command should be placed into its own subfolder, under the <code>commands</code> directory,<br>
+or should be loaded as an external dependency, and added into the <code>src/commands/index.js</code> export.</li>
+</ul>
+<p>Every module listed above has its unit test counterpart in the corresponding <code>&lt;modulename&gt;.spec.js</code> file.<br>
+So everything (including the whole cli aplication, the cli parser, etc.) are unit tested.</p>
+<ul>
+<li><code>app.js</code>: The script, that is referred from the <code>package.json</code> as the main script, named <code>npac-example-cli</code>.<br>
+Its only purpose is to run the application, using the arguments given through the console.</li>
+</ul>
+<h2>How to add new commands?</h2>
+<ol>
+<li>Define the user interface of the command, in the meaning of command name, and parameters.</li>
+<li>Define the configuration parameters required for the execution, and/or used during the cli parsing.</li>
+<li>Add the newly defined default configuration parameters to the <a href="src/config.js"><code>src/config.js</code></a> file.</li>
+<li>Implement the command parser inside the <a href="src/cli.js">cli parser</a> (see below).</li>
+<li>Implement the command, in its own subdirectory, under the <code>src/commands/&lt;command-name&gt;</code> directory.</li>
+<li>Add the new command to the <code>executives</code> object in the <a href="src/commands/index.js"><code>src/commands/index.js</code></a> file.</li>
+<li>Add the application-level unit test of the new command, to the <a href="src/index.spec.js"><code>src/index.spec.js</code></a> file.</li>
+</ol>
+<h3>Extending the CLI parser</h3>
+<pre class="prettyprint source lang-JavaScript"><code>        .command('echo', 'Echo arguments', yargs =>
+            yargs
+                .option(&quot;config&quot;, {
+                    alias: &quot;c&quot;,
+                    desc: &quot;The name of the configuration file&quot;,
+                    default: defaults.configFileName
+                })
+                .option(&quot;text&quot;, {
+                    alias: &quot;t&quot;,
+                    desc: &quot;A text parameter&quot;,
+                    type: 'string',
+                    default: defaults.docsTemplates
+                })
+                .demandOption([]),
+            argv => {
+                results = {
+                    command: {
+                        name: 'echo',
+                        args: {
+                            text: argv.text
+                        },
+                    },
+                    cliConfig: {
+                        configFileName: argv.config
+                    }
+                }
+            }
+        )
+</code></pre>
+<p>The results of the parsing must be an object in the following format:</p>
+<pre class="prettyprint source lang-JavaScript"><code>    {
+        command: {
+            name: &quot;&lt;command-name>&quot;,
+            args: {
+                // dictionary of command arguments
+            },
+        },
+        cliConfig: {
+            // configuration parameters, if there is any beside the default ones,
+            // or an empty object, in case there is no additional or altered config parameters
+        }
+    }
+</code></pre>
+<p>For example:</p>
+<pre class="prettyprint source lang-JavaScript"><code>    {
+        command: {
+            name: 'echo',
+            args: {
+                text: argv.text
+            },
+        },
+        cliConfig: {
+            configFileName: argv.config
+        }
+    }
+</code></pre>
+<h2>References</h2>
+<ul>
+<li><a href="https://github.com/tombenke/npac">npac - A lightweight Ports and Adapters Container for Node</a>.</li>
+<li><a href="https://github.com/tombenke/ncli-archetype">ncli-archetype - Project archetype for Command Line tools using Node.js</a>.</li>
+</ul>
 <hr>
 <p>This project was generated by the <a href="https://github.com/tombenke/kickoff">kickoff</a> utility.</p></article>
     </section>
@@ -65,7 +194,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a>
 </footer>
 
 <script> prettyPrint(); </script>

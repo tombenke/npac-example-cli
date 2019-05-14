@@ -35,7 +35,6 @@ import {
 */
 
 describe('commands/echo', function () {
-
     /*
     const testDirectory = path.resolve('./tmp')
     const destCleanup = function(cb) {
@@ -56,9 +55,11 @@ describe('commands/echo', function () {
     */
 
     var echoContainer = {
-        config: _.merge({}, _config2.default, {/* Add command specific config parameters */})
+        config: _.merge({}, _config2.default, {
+            /* Add command specific config parameters */
+        })
     };
-    var textToEcho = "Hello World!";
+    var textToEcho = 'Hello World!';
     var echoCommand = {
         name: 'echo',
         args: { text: textToEcho }

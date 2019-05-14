@@ -8,35 +8,49 @@ var yargs = require('yargs');
 var parse = function parse(defaults) {
     var processArgv = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : process.argv;
 
-
     var results = {};
 
     yargs(processArgv.slice(2))
     //        .exitProcess(false)
     .command('echo', 'Echo arguments', function (yargs) {
-        return yargs.option("config", {
-            alias: "c",
-            desc: "The name of the configuration file",
+        return yargs.option('config', {
+            alias: 'c',
+            desc: 'The name of the configuration file',
             default: defaults.configFileName
-        }).option("text", {
-            alias: "t",
-            desc: "A text parameter",
+        }).option('text', {
+            alias: 't',
+            desc: 'A text parameter',
             type: 'string',
             default: defaults.docsTemplates
+        }).option('loglevel', {
+            alias: 'l',
+            desc: 'The log level',
+            type: 'string',
+            default: defaults.logger.level
         }).demandOption([]);
     }, function (argv) {
         results = {
             command: {
                 name: 'echo',
+                type: 'sync', // sync | async
                 args: {
                     text: argv.text
                 }
             },
             cliConfig: {
-                configFileName: argv.config
+                configFileName: argv.config,
+                logger: {
+                    level: argv.loglevel
+                }
             }
         };
-    }).demandCommand(1, "Must use a command!").showHelpOnFail(false, 'Specify --help for available options').help().parse();
+    })
+
+    /*
+     * Place your command parser implementations here, similar to the `echo` example above
+     */
+
+    .demandCommand(1, 'Must use a command!').showHelpOnFail(false, 'Specify --help for available options').help().parse();
 
     return results;
 };

@@ -3,11 +3,14 @@ import config from './config'
 import path from 'path'
 import thisPackage from '../package.json'
 
-before(done => { done() })
-after(done => { done() })
+before(done => {
+    done()
+})
+after(done => {
+    done()
+})
 
 describe('config', () => {
-
     it('defaults', done => {
         const expected = {
             app: {
@@ -15,10 +18,17 @@ describe('config', () => {
                 version: thisPackage.version
             },
             configFileName: 'config.yml',
-            logLevel: 'info',
+            logger: {
+                level: process.env.LOG_LEVEL || 'info',
+                transports: {
+                    console: {
+                        format: process.env.LOG_FORMAT || 'plainText' // 'plainText' or 'json'
+                    }
+                }
+            },
             installDir: path.resolve('./')
         }
-        
+
         const defaults = config
         expect(defaults).to.eql(expected)
         done()

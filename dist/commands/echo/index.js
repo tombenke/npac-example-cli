@@ -13,5 +13,6 @@
  */
 
 exports.execute = function (container, args) {
-  container.logger.info('echo.execute => ' + args.text);
+  container.logger.info(args.text);
+  container.logger.debug('echo.execute => ' + args.text);
 };

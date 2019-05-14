@@ -21,17 +21,20 @@ after(function (done) {
 });
 
 describe('cli', function () {
-
     it('echo', function (done) {
-        var textToEcho = "Hello World!";
+        var textToEcho = 'Hello World!';
         var processArgv = ['node', 'src/index.js', 'echo', '-t', textToEcho];
         var expected = {
             command: {
                 name: 'echo',
+                type: 'sync',
                 args: { text: textToEcho }
             },
             cliConfig: {
-                configFileName: "config.yml"
+                configFileName: 'config.yml',
+                logger: {
+                    level: 'info'
+                }
             }
         };
 

@@ -11,17 +11,20 @@ after(done => {
 })
 
 describe('cli', () => {
-
     it('echo', done => {
-        const textToEcho = "Hello World!"
-        const processArgv = ['node', 'src/index.js', 'echo', '-t', textToEcho];
+        const textToEcho = 'Hello World!'
+        const processArgv = ['node', 'src/index.js', 'echo', '-t', textToEcho]
         const expected = {
             command: {
                 name: 'echo',
+                type: 'sync',
                 args: { text: textToEcho }
             },
             cliConfig: {
-                configFileName: "config.yml"
+                configFileName: 'config.yml',
+                logger: {
+                    level: 'info'
+                }
             }
         }
 

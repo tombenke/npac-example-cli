@@ -49,9 +49,21 @@ var start = exports.start = function start() {
     // Define the adapters and executives to add to the container
     var adapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _commands2.default];
 
+    // Define the terminators
+    var terminators = [];
+
+    var callCommand = function callCommand(command) {
+        return command.type === 'sync' ? _npac2.default.makeCallSync(command) : _npac2.default.makeCall(command);
+    };
     // Define the jobs to execute: hand over the command got by the CLI.
-    var jobs = [_npac2.default.makeCallSync(command)];
+    var jobs = [callCommand(command)];
+
+    var endCb = cb !== null ? cb : function (err, res) {
+        if (command.type === 'async') {
+            process.kill(process.pid, 'SIGTERM');
+        }
+    };
 
     //Start the container
-    _npac2.default.start(adapters, jobs, cb);
+    _npac2.default.start(adapters, jobs, terminators, endCb);
 };

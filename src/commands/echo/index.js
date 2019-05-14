@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*jshint node: true */
-'use strict';
+'use strict'
 
 /**
  * 'echo' command implementation
@@ -11,5 +11,6 @@
  * @function
  */
 exports.execute = (container, args) => {
-    container.logger.info(`echo.execute => ${args.text}`)
+    container.logger.info(args.text)
+    container.logger.debug(`echo.execute => ${args.text}`)
 }

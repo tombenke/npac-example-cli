@@ -24,7 +24,6 @@ after(function (done) {
 });
 
 describe('config', function () {
-
     it('defaults', function (done) {
         var expected = {
             app: {
@@ -32,7 +31,14 @@ describe('config', function () {
                 version: _package2.default.version
             },
             configFileName: 'config.yml',
-            logLevel: 'info',
+            logger: {
+                level: process.env.LOG_LEVEL || 'info',
+                transports: {
+                    console: {
+                        format: process.env.LOG_FORMAT || 'plainText' // 'plainText' or 'json'
+                    }
+                }
+            },
             installDir: _path2.default.resolve('./')
         };
 

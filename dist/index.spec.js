@@ -32,7 +32,6 @@ var destCleanup = function destCleanup(cb) {
 };
 
 describe('app', function () {
-
     before(function (done) {
         destCleanup(function () {
             _fs2.default.mkdirSync(testDirectory);
@@ -45,22 +44,19 @@ describe('app', function () {
     });
 
     /*
-        it('#start - with no arguments', (done) => {
-    
-            const processArgvEmpty = [
-                'node', 'src/index.js'
-            ]
-    
-            try {
-                start(processArgvEmpty)
-            } catch (err) {
-                expect(err.message).to.equal('Must use a command!')
-                done()
-            }
-        })
+    it('#start - with no arguments', (done) => {
+         const processArgvEmpty = [
+            'node', 'src/index.js'
+        ]
+         try {
+            start(processArgvEmpty)
+        } catch (err) {
+            expect(err.message).to.equal('Must use a command!')
+            done()
+        }
+    })
     */
     it('#start - echo command', function (done) {
-
         var processArgvToEcho = ['node', 'src/index.js', 'echo', '--text', 'Hello world!'];
 
         (0, _index.start)(processArgvToEcho, function (err, res) {
