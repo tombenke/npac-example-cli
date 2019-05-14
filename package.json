@@ -1,7 +1,7 @@
 {
   "name": "npac-example-cli",
   "description": "CLI example application using the npac container",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "keywords": [
     "cli",
     "util",
