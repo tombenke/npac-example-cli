@@ -1,4 +1,10 @@
 {
-    "plugins": ["transform-object-rest-spread", "transform-es2015-parameters", "transform-es2015-block-scoping"],
+    "plugins": [
+        "transform-object-rest-spread",
+        "transform-es2015-parameters",
+        "transform-es2015-block-scoping",
+        "transform-runtime",
+        "transform-async-to-generator"
+    ],
     "presets": ["latest", "es2015"]
 }
