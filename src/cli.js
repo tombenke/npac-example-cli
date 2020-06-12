@@ -12,7 +12,7 @@ const parse = (defaults, processArgv = process.argv) => {
         .command(
             'echo',
             'Echo arguments',
-            yargs =>
+            (yargs) =>
                 yargs
                     .option('config', {
                         alias: 'c',
@@ -32,7 +32,7 @@ const parse = (defaults, processArgv = process.argv) => {
                         default: defaults.logger.level
                     })
                     .demandOption([]),
-            argv => {
+            (argv) => {
                 results = {
                     command: {
                         name: 'echo',
